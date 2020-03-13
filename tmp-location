@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+   crossorigin=""></script>
+    <style>
+        body{
+            background-color: #132948;
+            padding: 0;
+        }
+        .tmpheader{
+            width: 100%;
+            height: 370px;
+            background-color: black;
+        }
+        .regionscroll{
+            height: 550px;
+            background-color: #31445F;
+            color: white;
+            margin-top: 30px;
+            padding: 0;
+        }
+        .region{
+            display: block;
+            height: 50px;
+            width: 100%;
+            background-color: #31445F;
+            padding: 0;
+            text-align: center;
+            font-size: 24px;
+            border: 2px solid #4E5F76;
+        }
+        .region:hover{
+            background-color: #4E5F76;
+        }
+        .locus{
+            margin: 0;
+            height: 0;
+            transition: .5s;
+            overflow: hidden;
+        }
+        .opentext{
+            height: 300px;
+        }
+        .map{
+            margin-top: 30px;
+            height: 550px;
+            overflow: hidden;
+        }
+        .locusinfo{
+            height: 700px;
+            margin-top: 30px;
+            background-color: #4E5F76
+        }
+        .d-image{
+            background-color: #31445F;
+        }
+        .locusmaininfo h2{
+            padding-top: 25px;
+            color:#FFFF;
+        }
+        .locusmaininfo ul li{
+            margin-top: 25px;
+            list-style: none;
+            color:#FFFF;
+        }
+        .weather{
+            background-color: #4E5F76;
+            height: 700px;
+            width: 100%;
+        }
+        .week tr td{
+            height: 50px;
+            width: 150px;
+            background-color: #31445F;
+            text-align: center;
+        }
+        .week th{
+            height: 50px;
+            width: 150px;
+            background-color: #31445F;
+            text-align: center;
+        }
+        h1{
+            margin-top: 30px;
+            color:#FFFF
+        }
+        .comments{
+            background-color: #4E5F76;
+            margin-bottom: 20px;
+        }
+        .memberportrait{
+            height: 80px;
+            width: 80px;
+            border-radius: 50%;
+            margin: 10px;
+            margin-left: 30px;
+            
+        }
+        p{
+            color: #FFFF;
+            margin: 10px;
+        }
+        footer{
+            height: 100px;
+            background-color: #31445F;
+        }
+        h6{
+            color: #FFFF;
+            margin: 10px;
+            margin-right: 60px;
+        }
+        .inputcoment{
+            position: absolute;
+            bottom: 0px;
+            width: 100%;
+        }
+        textarea{
+            height:100px;
+            max-width: 900px;
+            background-color: #4E5F76;
+            color: #FFFF;
+            margin-bottom: 10px;
+        }
+        -webkit-textarea-placeholder{
+            color: #FFFF;
+        }
+        ul li a{
+            color: #FFFF;
+            background-color: #4E5F76;
+            margin: 0px 10px 5px 0px;
+        }
+        .bg{
+            background-color: #132948;
+        }
+        .tabcontent{
+            position: relative;
+        }
+        .content{
+            position: absolute;
+            padding: 20px;
+            display: none;
+            color: #FFFF;
+        }
+        .content:first-child{
+            display: block;
+        }
+        h4{
+            margin: 10px;
+            color: #FFFF;
+        }
+        h5{
+            margin: 10px;
+            color: #FFFF;
+        }
+        .comentitself{
+            margin-left: 20px;
+        }
+        hr.d-hr{
+            color: #FFFF;
+        }
+        .satis{
+            margin: 10px;
+            color: #ff0000;
+        }
+        .sign{
+            margin-left: 20px;
+
+        }
+    </style>
+  </head>
+  <body>
+        <div class="tmpheader"></div>
+        <div class="container">
+            <h1>AQUA 精選潛點地圖</h1>
+            <div class="row">
+                <div class="col-sm-3 regionscroll">
+                    <a role="button" class="region" id="NE">東北角</a>
+                    <ul class="locus" id="NET">
+                        <li>龍洞海洋公園</li>
+                        <li>深澳</li>
+                        <li>卯澳灣</li>
+                        <li>鼻頭角</li>
+                    </ul class="locus">
+                    <a role="button" class="region" id="EC">花東海岸</a>
+                    <ul class="locus" id="ECT">
+                        <li>石梯坪</li>
+                        <li>都蘭</li>
+                    </ul>
+                    <a role="button" class="region" id="SC">墾丁</a>
+                    <ul class="locus" id="SCT">
+                        <li>後壁湖</li>
+                        <li>萬里桐</li>
+                    </ul>
+                    <a role="button" class="region" id="GI">綠島</a>
+                    <ul class="locus" id="GIT">
+                        <li>石朗</li>
+                        <li>大白沙</li>
+                        <li>柴口</li>
+                    </ul>
+                    <a role="button" class="region" id="OI">蘭嶼</a>
+                    <ul class="locus" id="OIT">
+                        <li>漁人部落港灣</li>
+                        <li>椰油斷層</li>
+                        <li>椰油斷層</li>
+                        <li>開元港藍洞</li>
+                        <li>情人洞</li>
+                        <li>八代灣沈船</li>
+                    </ul>
+                </div>
+                <div class="col-sm-9 map" id="map"></div>
+            </div>
+            <!-- locusinfo -->
+            <section>
+                <h1>潛點資訊</h1><hr>
+                <div class="row locusinfo">
+                    
+                    <div class="col-sm-6 d-image">
+                        幻燈片區 套用react plug-in
+                    </div>
+                    <div class="col-sm-6 locusmaininfo">
+                        <h2>龍洞海洋公園</h1>
+                        <hr/>
+                        <ul>
+                            <li>潛點難度</li>
+                            <li>平均滿意度</li>
+                            <li>交通資訊</li>
+                            <li>龍洞灣是東北角海岸風景特定區最大港灣，為北部的訓練基地之一。有停車場、商店、潛水店、充氣服務。特殊的海灣地形能抵擋洶湧的潮流，吸引豐富的海洋生態在此棲息發展，清澈的海灣內約有25科80種魚類，以隆頭魚科、蝶魚科、雀鯛科、粗皮鯛科等較多，尤其變色雀鯛出現最為頻繁，往往令前來遊玩的朋友興奮得目不暇給。</li>
+                            <li></li>
+                         </ul>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h1>地區天氣預報與實時海象</h1>
+                <div class="weather">
+                    <ul class="nav nav-tabs bg" id="tab">
+                        <li class="nav-item">
+                            <a class="nav-link" role="button" id="futureweather">天氣預報</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link w-tab" role="button" id="realtime">實時海況與潮汐預報</a>
+                        </li>
+                    </ul>
+                    <div class="tabcontent">
+                        <div class="content futureweather">
+                            <div class="weekweather">
+                                <table class="week d-flex justify-content-start">
+                                        <h4>一周天氣預報</h4>
+                                        <tr>
+                                            <td>星期一</td>
+                                            <td>星期二</td>
+                                            <td>星期三</td>
+                                            <td>星期四</td>
+                                            <td>星期五</td>
+                                            <td>星期六</td>
+                                            <td>星期日</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>1</td>
+                                            <td>2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>1</td>
+                                            <td>2</td>
+                                        </tr>
+                                </table>
+                                <table class="week d-flex justify-content-start">
+                                    <h4>逐三小時氣象預報</h4>
+                                    <tr>
+                                        <td>星期一</td>
+                                        <td>星期二</td>
+                                        <td>星期三</td>
+                                        <td>星期四</td>
+                                        <td>星期五</td>
+                                        <td>星期六</td>
+                                        <td>星期日</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>1</td>
+                                        <td>2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>1</td>
+                                        <td>2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>1</td>
+                                        <td>2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>1</td>
+                                        <td>2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>1</td>
+                                        <td>2</td>
+                                    </tr>
+                            </table>
+                            </div>
+                        </div>
+                        <div class="week content realtime">
+                            <h4>實時海況</h4>
+                            <table>
+                                    <thead>
+                                        <th>海溫</th>
+                                        <th>氣溫</th>
+                                        <th>浪週期</th>
+                                        <th>浪高</th>
+                                        <th>浪向</th>
+                                    </thead>
+                                    <tr>
+                                        <td>21</td>
+                                        <td>19</td>
+                                        <td>6.3</td>
+                                        <td>1.2</td>
+                                        <td>東北東</td>
+                                    </tr>
+                            </table>
+                            <h4>潮汐預報</h4>
+                            <table>
+                                    <thead>
+                                        <th>日期</th>
+                                        <th>潮汐</th>
+                                        <th>時間</th>
+                                        <th>相對台灣高程基準</th>
+                                    </thead>
+                                    <tr>
+                                        <td>3/13</td>
+                                        <td>乾潮</td>
+                                        <td>03:16</td>
+                                        <td>-36</td>
+                                    </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="comment">
+                <h1>潛友評論</h1>
+                <div class="commentboard">
+                    <div class="comments">
+                        <div class="d-flex">
+                             <a href=""><img class="memberportrait" src="portrait_technique_0014.jpg" alt=""></a>
+                             <div>
+                                <div class="comentitself">
+                                    <h6 class="satis">★★★★★</h6>
+                                    <p class="artical">這是個好地方，有停車場、商店、潛水店、充氣服務。特殊的海灣地形能抵擋洶湧的潮流，吸引豐富的海洋生態在此棲息發展</p>
+                                </div> 
+                                <div class="d-flex sign align-items-end"> 
+                                    <h4>Flavia Valeriana</h4>
+                                    <h6 class="commentdate">2020/3/13 13:25</h6>
+                                    <hr class="d-hr">
+                                </div> 
+                             </div>
+                            
+                        </div>      
+                    </div>
+                    <div class="comments">
+                        <div class="d-flex">
+                             <a href=""><img class="memberportrait" src="portrait_technique_0014.jpg" alt=""></a>
+                             <div>
+                                <div class="comentitself">
+                                    <h6 class="satis">★★★★★</h6>
+                                    <p class="artical">這是個好地方，有停車場、商店、潛水店、充氣服務。特殊的海灣地形能抵擋洶湧的潮流，吸引豐富的海洋生態在此棲息發展</p>
+                                </div> 
+                                <div class="d-flex sign align-items-end"> 
+                                    <h4>Flavia Valeriana</h4>
+                                    <h6 class="commentdate">2020/3/13 13:25</h6>
+                                    <hr class="d-hr">
+                                </div> 
+                             </div>
+                            
+                        </div>      
+                    </div>
+                    <div class="comments">
+                        <div class="d-flex">
+                             <a href=""><img class="memberportrait" src="portrait_technique_0014.jpg" alt=""></a>
+                             <div>
+                                <div class="comentitself">
+                                    <h6 class="satis">★★★★★</h6>
+                                    <p class="artical">這是個好地方，有停車場、商店、潛水店、充氣服務。特殊的海灣地形能抵擋洶湧的潮流，吸引豐富的海洋生態在此棲息發展</p>
+                                </div> 
+                                <div class="d-flex sign align-items-end"> 
+                                    <h4>Flavia Valeriana</h4>
+                                    <h6 class="commentdate">2020/3/13 13:25</h6>
+                                    <hr class="d-hr">
+                                </div> 
+                             </div>
+                        </div>      
+                    </div>
+                    <div class="d-flex comments">
+                        <a href=""><img class="memberportrait" src="portrait_technique_0014.jpg" alt=""></a>
+                        <div>
+                            <div class="comentitself">
+                                <h6 class="satis">★★★★★</h6>
+                                <textarea name="comment" id="" cols="30" rows="10" placeholder="想說甚麼嗎?"></textarea>
+                            </div>
+                            <button type="submit" class="sentcomment">送出
+                            </button>
+                        </div>
+                        
+                   </div>
+               </div>
+                </div>
+            </section>
+        </div>
+        <footer></footer>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+    crossorigin=""></script>
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        $("#NE").click(function () {
+            $("#NET").toggleClass("opentext").siblings().removeClass("opentext");
+        });
+        $("#EC").click(function () {
+            $("#ECT").toggleClass("opentext").siblings().removeClass("opentext");
+        });
+        $("#SC").click(function () {
+            $("#SCT").toggleClass("opentext").siblings().removeClass("opentext");
+        });
+        $("#GI").click(function () {
+            $("#GIT").toggleClass("opentext").siblings().removeClass("opentext");
+        });
+        $("#OI").click(function () {
+            $("#OIT").toggleClass("opentext").siblings().removeClass("opentext");
+        });
+        var map = L.map('map').setView([25.131267, 121.738245], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        $("#tab li").click(function(){
+            let chosed = $(this).index()
+            $(this).find("a").addClass("active");
+            $(this).siblings().find("a").removeClass("active")
+            $(".content").eq(chosed).fadeIn(200,function () {}).siblings().fadeOut(200,function () {})
+        });
+    </script>
+  </body>
+</html>
