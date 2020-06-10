@@ -22,12 +22,9 @@ class map extends React.Component {
       }
       const currentmark = this.props.match.params
       const marksinfo = this.props.mapmarksGCS.DivelocationInfo
-      // console.log(marksinfo)
-      // console.log(currentmark)
       const locatecurrentmark = marksinfo.filter(
         marksinfo => marksinfo.LocationID === currentmark.LocationID
       )
-      // console.log(locatecurrentmark)
       locatecurrentmark.forEach(function(locatecurrentmark) {
         mymap = L.map('mapid').setView(
           [locatecurrentmark.Latitude, locatecurrentmark.Longitude],
@@ -59,7 +56,7 @@ class map extends React.Component {
 
       // console.log(currentmark)
       marksinfo.forEach(function(marksinfo) {
-        L.marker([marksinfo.Latitude, marksinfo.Longitude], { icon: blueIcon })
+        L.markers([marksinfo.Latitude, marksinfo.Longitude], { icon: blueIcon })
           .addTo(mymap)
           .bindPopup(marksinfo.LocationName)
       })
